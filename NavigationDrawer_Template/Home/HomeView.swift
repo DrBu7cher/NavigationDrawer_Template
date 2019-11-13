@@ -11,8 +11,11 @@ import SwiftUI
 struct HomeView: View {
     
     var body: some View {
-        HStack{
-            Text("HomeView")
+        ZStack{
+            Color.pink
+            HStack{
+                Text("HomeView")
+            }
         }
     }
 }

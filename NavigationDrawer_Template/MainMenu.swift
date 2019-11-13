@@ -17,6 +17,8 @@ let navBarBackgroundColor:Color = .green
 
 let drawerBackgroundColor:Color = .gray
 
+let blurBorderColor:Color = .orange//Bei BLUR-Effekt die Umrandung des verschwommenen Hintergrunds
+
 let selectedTabColor:Color = .yellow
 let defaultTabColor:Color = .red
 
@@ -32,15 +34,27 @@ struct ContentView: View {
     
     var body: some View {
         ZStack{
-            defaultBackgroundColor.edgesIgnoringSafeArea(.all)
-            TabView(selection: self.$showingTab){
-                HomeView().tag(0)
-                TaskListView().tag(1)
-                SwitchingView().tag(2)
-                GroupView().tag(3)
-                SettingsView().tag(4)
-                AboutView().tag(5)
-            }.blur(radius: (self.isDrawerOpen ? 10 : 0))
+            Color.orange.edgesIgnoringSafeArea(.all)
+
+            VStack(spacing: 0){
+                HStack{
+                    Button(action: {
+                        withAnimation(.easeInOut(duration: drawerOpeningDuration)){
+                            self.isDrawerOpen.toggle()
+                        }
+                    }){Image(systemName: "list.dash").foregroundColor(.black).padding(.leading, 16).padding(.vertical, 18).scaleEffect(1.5)}
+                    Spacer()
+                    }.background(navBarBackgroundColor.edgesIgnoringSafeArea(.top))
+//                Spacer()
+                TabView(selection: self.$showingTab){
+                    HomeView().tag(0)
+                    TaskListView().tag(1)
+                    SwitchingView().tag(2)
+                    GroupView().tag(3)
+                    SettingsView().tag(4)
+                    AboutView().tag(5)
+                }.blur(radius: (self.isDrawerOpen ? 10 : 0))
+            }
             if self.isDrawerOpen {
                 TransparentView().onTapGesture {
                     if self.isDrawerOpen {
@@ -49,18 +63,6 @@ struct ContentView: View {
                         }
                     }
                 }
-            }
-            
-            VStack{
-                HStack{
-                    Button(action: {
-                        withAnimation(.easeInOut(duration: drawerOpeningDuration)){
-                            self.isDrawerOpen.toggle()
-                        }
-                    }){Image(systemName: "list.dash").foregroundColor(.black).padding(.leading, 16).padding(.vertical, 18).scaleEffect(1.5)}
-                    Spacer()
-                }.background(navBarBackgroundColor.edgesIgnoringSafeArea(.top))
-                Spacer()
             }
             
             NavigationDrawer(isOpen: self.$isDrawerOpen, tab: self.$showingTab).offset(x: self.isDrawerOpen ? 0 : -screen.width)

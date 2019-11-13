@@ -21,8 +21,8 @@ struct DrawerItemRow: View {
             }else{
                 defaultTabColor
             }
-            Text(title).foregroundColor((self.showingTab == tag ? .white : .black)).animation(.easeInOut(duration: drawerOpeningDuration))
-        }.onTapGesture {
+            Text(title).foregroundColor((self.showingTab == tag ? .white : .black))
+        }.animation(.easeInOut(duration: drawerOpeningDuration)).onTapGesture {
             withAnimation(.easeInOut(duration: drawerOpeningDuration)) {
                 self.showingTab = self.tag
                 self.isOpen = false
