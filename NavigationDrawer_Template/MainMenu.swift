@@ -40,10 +40,13 @@ struct ContentView: View {
                 GroupView().tag(3)
                 SettingsView().tag(4)
                 AboutView().tag(5)
-            }.blur(radius: (self.isDrawerOpen ? 10 : 0)).onTapGesture {
-                if self.isDrawerOpen {
-                    withAnimation(.easeInOut(duration: drawerOpeningDuration)){
-                        self.isDrawerOpen = false
+            }.blur(radius: (self.isDrawerOpen ? 10 : 0))
+            if self.isDrawerOpen {
+                TransparentView().onTapGesture {
+                    if self.isDrawerOpen {
+                        withAnimation(.easeInOut(duration: drawerOpeningDuration)){
+                            self.isDrawerOpen = false
+                        }
                     }
                 }
             }
@@ -115,5 +118,20 @@ struct NavigationDrawer: View {
             .offset(x: self.isOpen ? 0 : -self.width)
             Spacer()
         }
+    }
+}
+
+struct TransparentView: UIViewControllerRepresentable {
+    typealias UIViewControllerType = UIViewController
+
+
+    func makeUIViewController(context: UIViewControllerRepresentableContext<TransparentView>) -> TransparentView.UIViewControllerType {
+        let vc = UIViewController()
+        vc.view.backgroundColor = .none
+        return vc
+    }
+
+    func updateUIViewController(_ uiViewController: TransparentView.UIViewControllerType, context: UIViewControllerRepresentableContext<TransparentView>) {
+        //
     }
 }
